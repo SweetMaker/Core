@@ -16,7 +16,7 @@ namespace SweetMaker
 		void configFaultPin(uint8_t pin);
 		void setSpeedA_16384(int16_t speed);
 		void setSpeedB_16384(int16_t speed);
-		void setEnable(boolean enable);
+		void setEnable(bool enable);
 		bool getFault();
 
 		const static uint8_t NULL_PIN = 0xff;

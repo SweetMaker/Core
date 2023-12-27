@@ -73,7 +73,7 @@ void SweetMaker::Drv8833Driver::setSpeedB_16384(int16_t speed)
 	}
 }
 
-void SweetMaker::Drv8833Driver::setEnable(boolean enable)
+void SweetMaker::Drv8833Driver::setEnable(bool enable)
 {
 	if (enable)
 		digitalWrite(enablePin, HIGH);
