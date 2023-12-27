@@ -1,0 +1,13 @@
+# VS Code Artifacts
+*vcxproj.filters
+*vcxproj.user
+*.suo
+*.VC.db
+*.ipch
+*.vs
+# May want to include these VS Project artifacts at a later date
+*.sln
+*.vcxproj
+
+#Miscellaneous
+*.bak

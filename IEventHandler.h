@@ -44,6 +44,7 @@ namespace SweetMaker {
 			MOTION_SENSOR_EVENTS =  0x0070,
 			BLE_MIDI_EVENTS =       0x0080,
 			LED_STRIP_EVENTS =      0x0090,
+			TO_DISCRETE_EVENTS =    0x00A0,
 			LIBRARY =               0x8000,
 			USER =                  0xF000
 		}EVENT_OFFSET;
