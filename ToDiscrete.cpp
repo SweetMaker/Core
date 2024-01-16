@@ -34,7 +34,6 @@ void ToDiscrete::writeValue(int32_t value)
 		this->next_up_threshold += this->step_size;
 		this->next_down_threshold += this->step_size;
 		this->current_discrete_value++;
-		Serial.println(value);
 		EventMngr::getMngr()->handleEvent(TO_DISCRETE_EVENT::NEW_VALUE, this->instance_id, this->current_discrete_value);
 	}
 
@@ -42,7 +41,6 @@ void ToDiscrete::writeValue(int32_t value)
 		this->next_up_threshold -= this->step_size;
 		this->next_down_threshold -= this->step_size;
 		this->current_discrete_value--;
-		Serial.println(value);
 		EventMngr::getMngr()->handleEvent(TO_DISCRETE_EVENT::NEW_VALUE, this->instance_id, this->current_discrete_value);
 	}
 
@@ -56,7 +54,6 @@ int32_t ToDiscrete::readValue()
 
 void ToDiscrete::start(int32_t current_value)
 {
-	Serial.println("ToDiscrete::start");
 	current_continuous_value = current_value;
 	current_discrete_value = current_value / step_size;
 	next_up_threshold = (current_discrete_value + 1) * step_size + hysteresis_size;
