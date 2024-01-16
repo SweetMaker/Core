@@ -172,6 +172,19 @@ void ColourConverter::ConvertToRGB(ColourHSV * hsv, ColourRGB * rgb)
 	return;
 }
 
+uint32_t ColourConverter::ConvertToRGB(uint8_t hue, uint8_t saturation, uint8_t value)
+{
+	ColourHSV hsv(hue, saturation, value);
+	ColourRGB rgb;
+	ConvertToRGB(&hsv, &rgb);
+	uint32_t ret_val = rgb.red;
+	ret_val = ret_val << 8;
+	ret_val |= rgb.green;
+	ret_val = ret_val << 8;
+	ret_val |= rgb.blue;
+	return ret_val;
+}
+
 void ColourConverter::ConvertToHSV(ColourRGB * rgb, ColourHSV * hsv)
 {
     uint8_t rgbMin, rgbMax;

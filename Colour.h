@@ -50,7 +50,6 @@ namespace SweetMaker
 		ColourRGB();
 		ColourRGB(uint8_t r, uint8_t g, uint8_t b);
 		void setColour(uint8_t r, uint8_t g, uint8_t b);
-		void setColour(uint32_t colourCode);
 		void operator = (uint32_t colour);
 
 		uint8_t red, green, blue;
@@ -71,8 +70,9 @@ namespace SweetMaker
 	class ColourConverter
 	{
 	public:
-		static void ConvertToRGB(ColourHSV * hsv, ColourRGB * rgb);
-		static void ConvertToHSV(ColourRGB * rgb, ColourHSV * hsv);
+		static void ConvertToRGB(ColourHSV* hsv, ColourRGB* rgb);
+		static uint32_t ConvertToRGB(uint8_t hue, uint8_t saturation, uint8_t value);
+		static void ConvertToHSV(ColourRGB* rgb, ColourHSV* hsv);
 	};
 
 	class HsvToRgbSigConv

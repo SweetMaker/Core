@@ -381,13 +381,13 @@ int Esp32LedStripDriver::show(ColourRGB * ledString, uint16_t numLeds)
 
 	ret_val = rmt_wait_tx_done(rmtChannelNum, 0);
 	if (ret_val == ESP_ERR_TIMEOUT)
-		return(-1);
+		return(-2);
 
 	lastUpdateTime_ms = thisTime_ms;
 
 	usedItems = ledString2Items(itemArray, numItems, ledString, numLeds);
 	if (usedItems >= numItems)
-		return(-1);
+		return(-3);
 
 	itemArray[usedItems++] = item_show;
 
@@ -395,7 +395,7 @@ int Esp32LedStripDriver::show(ColourRGB * ledString, uint16_t numLeds)
 	if (ret_val != 0)
 	{
 		EventMngr::getMngr()->handleEvent(ILedStripDriver::LSE_SHOW_ERR, pinNum, 0);
-		return(-1);
+		return(-4);
 	}
 
 	return(0);
