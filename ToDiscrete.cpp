@@ -18,11 +18,19 @@ ToDiscrete::ToDiscrete()
 	this->step_size = 0;
 }
 
-ToDiscrete::ToDiscrete(int32_t step_size, int32_t hysteresis_size)
+ToDiscrete::ToDiscrete(uint16_t _step_size, uint16_t _hysteresis_size)
 {
 	ToDiscrete();
-	this->step_size = step_size;
-	this->hysteresis_size = hysteresis_size;
+	this->step_size = _step_size;
+	this->hysteresis_size = _hysteresis_size;
+}
+
+ToDiscrete::ToDiscrete(uint16_t _step_size, uint16_t _hysteresis_size, uint8_t id)
+{
+	ToDiscrete();
+	this->step_size = _step_size;
+	this->hysteresis_size = _hysteresis_size;
+	this->instance_id = id;
 }
 
 
@@ -62,4 +70,11 @@ void ToDiscrete::start(int32_t current_value)
 
 void ToDiscrete::stop()
 {
+}
+
+void ToDiscrete::print() {
+	Serial.print(this->current_discrete_value); Serial.print("\t");
+	Serial.print(this->next_down_threshold); Serial.print("\t");
+	Serial.print(this->next_up_threshold); Serial.print("\t");
+	Serial.print(this->next_up_threshold); Serial.print("\t");
 }

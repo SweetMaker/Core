@@ -43,7 +43,9 @@ namespace SweetMaker
 	{
 	public:
 		ToDiscrete();
-		ToDiscrete(int32_t step_size, int32_t hysteresis_size);
+		ToDiscrete(uint16_t step_size, uint16_t hysteresis_size);
+		ToDiscrete(uint16_t step_size, uint16_t hysteresis_size, uint8_t id);
+
 		void writeValue(int32_t value);
 		int32_t readValue();
 
@@ -61,12 +63,14 @@ namespace SweetMaker
 
 	private:
 		bool started;
-		int8_t instance_id;
-		int16_t hysteresis_size;
-		int16_t step_size;
+		uint8_t instance_id;
+		uint16_t hysteresis_size;
+		uint16_t step_size;
 		int32_t next_up_threshold;
 		int32_t next_down_threshold;
 		ISigInput* output;
+
+		void print();
 	};
 
 }
