@@ -7,6 +7,7 @@ using namespace SweetMaker;
 
 ToDiscrete::ToDiscrete()
 {
+	this->started = false;
 	this->current_continuous_value = 0;
 	this->current_discrete_value = 0;
 	this->output = NULL;
@@ -36,6 +37,11 @@ ToDiscrete::ToDiscrete(uint16_t _step_size, uint16_t _hysteresis_size, uint8_t i
 
 void ToDiscrete::writeValue(int32_t value)
 {
+	if (!this->started) {
+		this->start(value);
+		return;
+	}
+
 	this->current_continuous_value = value;
 
 	while (value > this->next_up_threshold) {
@@ -68,8 +74,9 @@ void ToDiscrete::start(int32_t current_value)
 	next_down_threshold = current_discrete_value * step_size - hysteresis_size;
 }
 
-void ToDiscrete::stop()
-{
+void ToDiscrete::stop() {
+	Serial.println("ToDiscrete::stop()");
+	this->started = false;
 }
 
 void ToDiscrete::print() {
