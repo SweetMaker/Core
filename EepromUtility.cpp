@@ -262,8 +262,6 @@ uint16_t EepromUtility::EepromReader::readU16()
 uint16_t EepromUtility::EepromReader::readU16(uint16_t offset)
 {
 	uint16_t data;
-	if (offset + 1 >= bufLen)
-		return 0;
 	data = EEPROM.read(offset++);
 	data = (data << 8) + EEPROM.read(offset);
 	return data;
@@ -322,7 +320,25 @@ int32_t EepromUtility::EepromReader::readS32()
 	return data;
 }
 
+int EepromUtility::EepromReader::memcpy(void* _dst, uint16_t len) {
+	uint8_t* dst = (uint8_t*)_dst;
+	if (nextByte + (len-1) > bufStart + bufLen)
+		return -1;
+	for (int i = 0; i < len; i++) {
+		dst[i] = EEPROM.read(nextByte++);
+	}
+	return len;
+}
 
+int EepromUtility::EepromReader::memcpy(uint16_t offset, void* _dst, uint16_t len) {
+	uint8_t* dst = (uint8_t*)_dst;
+	if (offset + (len-1) > bufStart + bufLen)
+		return -1;
+	for (int i = 0; i < len; i++) {
+		dst[i] = EEPROM.read(offset++);
+	}
+	return len;
+}
 
 int EepromUtility::EepromWriter::writeU8(uint8_t data)
 {
@@ -381,12 +397,17 @@ int EepromUtility::EepromWriter::writeS32(int32_t data)
 	return (0);
 }
 
+int EepromUtility::EepromWriter::memcpy(void* _src, uint16_t len) {
+	uint8_t* src = (uint8_t*)_src;
+	if (nextByte + len -1 >= bufStart + bufLen)
+		return -1;
+	for (int i = 0; i < len; i++) {
+		EEPROM.write(nextByte++, src[i]);
+	}
+	return len;
+}
+
 #endif
-
-
-
-
-
 
 /*
 * The width of the CRC calculation and result.

@@ -17,6 +17,8 @@ ToDiscrete::ToDiscrete()
 	this->next_down_threshold = 0;
 	this->next_up_threshold = 0;
 	this->step_size = 0;
+	this->distance_to_mid_255 = 0;
+	this->distance_to_mid_scaler = 0;
 }
 
 ToDiscrete::ToDiscrete(uint16_t _step_size, uint16_t _hysteresis_size)
@@ -24,6 +26,7 @@ ToDiscrete::ToDiscrete(uint16_t _step_size, uint16_t _hysteresis_size)
 	ToDiscrete();
 	this->step_size = _step_size;
 	this->hysteresis_size = _hysteresis_size;
+	this->distance_to_mid_scaler = ((uint32_t)0x10000 / _step_size);
 }
 
 ToDiscrete::ToDiscrete(uint16_t _step_size, uint16_t _hysteresis_size, uint8_t id)
@@ -32,6 +35,7 @@ ToDiscrete::ToDiscrete(uint16_t _step_size, uint16_t _hysteresis_size, uint8_t i
 	this->step_size = _step_size;
 	this->hysteresis_size = _hysteresis_size;
 	this->instance_id = id;
+	this->distance_to_mid_scaler = ((uint32_t)0x10000 / _step_size);
 }
 
 
@@ -43,6 +47,7 @@ void ToDiscrete::writeValue(int32_t value)
 	}
 
 	this->current_continuous_value = value;
+	this->distance_to_mid_255 = calculateDistanceToMid();
 
 	while (value > this->next_up_threshold) {
 		this->next_up_threshold += this->step_size;
@@ -68,6 +73,7 @@ int32_t ToDiscrete::readValue()
 
 void ToDiscrete::start(int32_t current_value)
 {
+	this->started = true;
 	current_continuous_value = current_value;
 	current_discrete_value = current_value / step_size;
 	next_up_threshold = (current_discrete_value + 1) * step_size + hysteresis_size;
@@ -75,13 +81,25 @@ void ToDiscrete::start(int32_t current_value)
 }
 
 void ToDiscrete::stop() {
-	Serial.println("ToDiscrete::stop()");
 	this->started = false;
 }
+
+/*
+ * calculateDistanceToMid - returns 0 when at the mid, 255 when furthest from mid
+ */
+uint16_t ToDiscrete::calculateDistanceToMid() {
+	int16_t mid_val = this->step_size >> 1;
+	uint32_t delta = abs(this->in_step_value - mid_val);
+	delta = (this->distance_to_mid_scaler * delta);
+	delta = delta >> 7;
+	delta = delta > 255 ? 255 : delta;
+	return delta;
+}
+
 
 void ToDiscrete::print() {
 	Serial.print(this->current_discrete_value); Serial.print("\t");
 	Serial.print(this->next_down_threshold); Serial.print("\t");
 	Serial.print(this->next_up_threshold); Serial.print("\t");
-	Serial.print(this->next_up_threshold); Serial.print("\t");
+	Serial.print(this->distance_to_mid_255); Serial.print("\t");
 }

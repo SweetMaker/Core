@@ -60,7 +60,6 @@ public:
 	typedef uint16_t SAMPLE;
 
 #define SAMPLE_SIZE (sizeof(SigGen::SAMPLE))
-#define NUM_SAM(s) (sizeof(s)>>1)
 
 	SigGen();
 	SigGen(const SAMPLE * samples, uint8_t numSamples, uint32_t period_ms, uint8_t options);
