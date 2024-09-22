@@ -55,11 +55,15 @@ namespace SweetMaker
 		int16_t current_discrete_value;
 		int32_t current_continuous_value;
 		int32_t in_step_value;
+		uint8_t distance_to_mid_255;  // distance to midpoint scaled to 255
 
 		typedef enum
 		{
 			NEW_VALUE = IEventHandler::TO_DISCRETE_EVENTS + 0
 		} TO_DISCRETE_EVENT;
+
+		uint16_t calculateDistanceToMid();
+		uint16_t distance_to_mid_scaler;
 
 	private:
 		bool started;

@@ -44,7 +44,7 @@ namespace SweetMaker
 			uint8_t readU8(void);
 			uint8_t readU8(uint16_t offset);
 			uint16_t readU16(void);
-			uint16_t readU16(uint16_t offset);
+			static uint16_t readU16(uint16_t offset);
 			uint32_t readU32(void);
 			uint32_t readU32(uint32_t offset);
 
@@ -54,6 +54,9 @@ namespace SweetMaker
 			int16_t readS16(uint16_t offset);
 			int32_t readS32(void);
 			int32_t readS32(uint32_t offset);
+
+			int memcpy(uint16_t offset, void* dst, uint16_t len);
+			int memcpy(void* dst, uint16_t len);
 		private:
 			uint16_t bufStart;
 			uint16_t bufLen;
@@ -71,6 +74,8 @@ namespace SweetMaker
 			int writeS8(int8_t data);
 			int writeS16(int16_t data);
 			int writeS32(int32_t data);
+
+			int memcpy(void* src, uint16_t len);
 		private:
 			uint16_t bufStart;
 			uint16_t bufLen;

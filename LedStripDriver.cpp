@@ -230,6 +230,7 @@ Esp32LedStripDriver::~Esp32LedStripDriver()
 int Esp32LedStripDriver::config(uint8_t _pinNum, uint16_t numLeds)
 {
 	pinNum = _pinNum;
+	Serial.println("Esp32LedStripDriver::config");
 
 	if (selectRmtChannel())
 		return (-1);
@@ -290,18 +291,10 @@ int Esp32LedStripDriver::selectRmtChannel()
 int Esp32LedStripDriver::configRmtChannel(rmt_channel_t channelNum, uint8_t pinNum)
 {
 	esp_err_t ret_val;
-	rmt_config_t rmtConfig;
-	memset(&rmtConfig, 0, sizeof(rmt_config_t));
 
-	rmtConfig.channel = channelNum;
-	rmtConfig.gpio_num = (gpio_num_t)27;
-	rmtConfig.mem_block_num = 1;
-	rmtConfig.rmt_mode = RMT_MODE_TX;
+	rmt_config_t rmtConfig = RMT_DEFAULT_CONFIG_TX((gpio_num_t)pinNum, channelNum);
 	rmtConfig.clk_div = RMT_DIVIDER;
-	rmtConfig.tx_config.carrier_en = false;
-	rmtConfig.tx_config.loop_en = false;
-	rmtConfig.tx_config.idle_level = RMT_IDLE_LEVEL_LOW;
-	rmtConfig.tx_config.idle_output_en = true;
+
 
 	ret_val = rmt_config(&rmtConfig);
 	if (ret_val != ESP_OK)

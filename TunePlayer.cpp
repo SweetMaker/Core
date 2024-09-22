@@ -50,7 +50,7 @@ TunePlayer::TunePlayer()
 	eventHandlerInstance = NULL;
 	eventHandlerCallback = NULL;
 
-	sineGen.configSamples(sineWave255, NUM_SAM(sineWave255), 150, 0);
+	sineGen.configSamples(sineWave255, sizeof(sineWave255)>>1, 150, 0);
 	sineGen.configOutput(&sigScaler);
 
 	sigScaler.configLinearScale(reverbLevel, 0);
